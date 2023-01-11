@@ -9,6 +9,8 @@ SUBMODULES = deps/secp256k1
 BIN = strfry
 OPT = -O3 -g
 LDLIBS += -lsecp256k1 -lb2
+STD=-std=c++2a
+
 
 PERL=$(shell command -v perl)
 export PERL
@@ -20,19 +22,6 @@ config.h: configurator
 
 configurator: configurator.c
 	$(CC) $< -o $@
-
-install: install-all
-install-all:cpanm-install
-cpanm-install:
-	@test $(CPANM) && \
-		sudo $(CPANM) YAML && \
-		sudo $(CPANM) Test::LeakTrace && \
-		sudo $(CPANM) Template && \
-		echo "" || echo -e "install cpanm for easy setup...\nsudo apt-get install cpanm\nOR\nbrew install cpanm"
-env:
-	@env -i $(PERL) -V
-local-lib:
-	@$(CPANM) --local-lib=~/perl5 local::lib && eval $($PERL -I ~/perl5/lib/perl5/ -Mlocal::lib)
 
 deps/secp256k1/.git:
 	@devtools/refresh-submodules.sh $(SUBMODULES)
@@ -54,18 +43,29 @@ deps/secp256k1/.libs/libsecp256k1.a: deps/secp256k1/config.log
 libsecp256k1.a: deps/secp256k1/.libs/libsecp256k1.a
 	cp $< $@
 
-
-
 %.o: %.c $(HEADERS)
 	@echo "cc $<"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-deps: deps/secp256k1/configure
-	$(MAKE) install -C deps/secp256k1/
+install: install-all
 
+install-all:cpanm-install
+
+cpanm-install:
+	@test $(CPANM) && \
+		sudo $(CPANM) YAML && \
+		sudo $(CPANM) Test::LeakTrace && \
+		sudo $(CPANM) Template && \
+		echo "" || echo -e "install cpanm for easy setup...\nsudo apt-get install cpanm\nOR\nbrew install cpanm"
+
+env:
+	@env -i $(PERL) -V
+
+local-lib:
+	@$(CPANM) --local-lib=~/perl5 local::lib && eval $($PERL -I ~/perl5/lib/perl5/ -Mlocal::lib)
 
 #NOTE:  STD=-std=c++2a make stuff macos x86_64
-stuff: deps $(HEADERS) $(OBJS) $(ARS)
+stuff: $(HEADERS) $(OBJS) $(ARS)
 	$(CC) $(CFLAGS) $(OBJS) $(ARS) -o $@
 
 include golpe/rules.mk
