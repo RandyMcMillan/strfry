@@ -4,35 +4,35 @@ namespace Yesstr;
 
 // FilterSync
 
-table RequestSync {
+table request_sync {
     filter: string; // only required for first in a sequence
-    reqsEncoded: [ubyte];
+    reqs_encoded: [ubyte];
 }
 
-table ResponseSync {
-    respsEncoded: [ubyte];
+table response_sync {
+    resps_encoded: [ubyte];
 }
 
 
 
 // Request/Response wrappers
 
-union RequestPayload {
-    RequestSync,
+union request_payload {
+    request_sync,
 }
 
-union ResponsePayload {
-    ResponseSync,
+union response_payload {
+    response_sync,
 }
 
-table Request {
-    requestId: uint64;
-    payload: RequestPayload;
+table request {
+    request_id: uint64;
+    payload: request_payload;
 }
 
-table Response {
-    requestId: uint64;
-    payload: ResponsePayload;
+table response {
+    request_id: uint64;
+    payload: response_payload;
 }
 
 
