@@ -3,3 +3,7 @@
 *.o
 /strfry
 /strfry-db/*.mdb
+configurator.out.dSYM/
+.DS_Store
+deps/.DS_Store
+libsecp256k1.a
