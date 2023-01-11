@@ -10,7 +10,11 @@ export CPANM
 install: install-all
 install-all:cpanm-install
 cpanm-install:
-	@test $(CPANM) && $(CPANM) YAML || echo -e "install cpanm for easy setup...\nsudo apt-get install cpanm\nOR\nbrew install cpanm"
+	@test $(CPANM) && \
+		sudo $(CPANM) YAML && \
+		sudo $(CPANM) Test::LeakTrace && \
+		sudo $(CPANM) Template && \
+		echo "" || echo -e "install cpanm for easy setup...\nsudo apt-get install cpanm\nOR\nbrew install cpanm"
 env:
 	@env -i $(PERL) -V
 local-lib:
