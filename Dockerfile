@@ -7,7 +7,8 @@ RUN apt update && apt install -y --no-install-recommends \
     libyaml-perl libtemplate-perl libssl-dev zlib1g-dev \
     liblmdb-dev libflatbuffers-dev libsecp256k1-dev libb2-dev \
     libzstd-dev cpanminus libflatbuffers-dev liblmdb-dev \
-	liblmdb++-dev liblmdb-file-perl/
+	liblmdb++-dev liblmdb-file-perl \
+	zlib1g-dev sudo liblmdb-dev
 
 COPY . .
 RUN git init
