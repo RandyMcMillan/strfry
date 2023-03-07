@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+
+  ubuntu:
+    container_name: ${PROJECT_NAME}_${HOST_UID:-4000}
+    hostname: ${PROJECT_NAME}
+    environment:
+      - UID=${HOST_UID:-4000}
+    user: ${HOST_USER:-nodummy}
+    image: ${PROJECT_NAME}:${HOST_USER:-nodummy}
+    privileged: true
+    build:
+      context: .
+      target: user
+      dockerfile: ubuntu.dockerfile
+      args:
+        - HOST_UID=${HOST_UID:-4000}
+        - HOST_USER=${HOST_USER:-nodummy}
+        - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY}
+        - PASSWORD=${PASSWORD}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+    command: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ${HOME:-.}:/home/${HOST_USER}
+      - ${PWD:-.}:/tmp
+      - ${PWD:-.}:/app
+      - ${PWD:-.}:/etc/strfry.conf
+      - ${PWD:-.}:/app/strfry-db
+    ports:
+      - "7777:7777"
