@@ -1,13 +1,11 @@
 ARG UBUNTU_VERSION=${UBUNTU_VERSION}
 FROM ubuntu:${UBUNTU_VERSION} as user
 RUN apt install -y apt
-RUN apt-get -y upgrade
 RUN apt-get -y update
 ARG DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 RUN export DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y \
-	apt-utils \
+RUN apt-get install --no-install-recommends -y \
 	adduser automake \
     bash bash-completion binutils bsdmainutils build-essential \
     ca-certificates cmake curl doxygen \
