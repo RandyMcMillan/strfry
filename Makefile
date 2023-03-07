@@ -58,7 +58,8 @@ cpanm-install:##
 		sudo $(CPANM) Test::LeakTrace && \
 		sudo $(CPANM) Template && \
 		echo "" || echo -e "install cpanm for easy setup...\nsudo apt-get install cpanminus\nOR\nbrew install cpanm"
-	@type brew && brew install cpanminus || type apt-get && sudo apt-get install -y cpanminus
+	@type -P brew && brew install cpanminus || echo
+	@type -P apt-get && sudo apt-get install -y cpanminus || echo
 
 env:##
 	@env -i $(PERL) -V
