@@ -12,7 +12,8 @@ services:
     build:
       context: .
       target: user
-      dockerfile: ubuntu.dockerfile
+      #dockerfile: ubuntu.dockerfile
+      dockerfile: Dockerfile
       args:
         - HOST_UID=${HOST_UID:-4000}
         - HOST_USER=${HOST_USER:-nodummy}
@@ -21,10 +22,9 @@ services:
         - UBUNTU_VERSION=${UBUNTU_VERSION}
     command: ["tail", "-f", "/dev/null"]
     volumes:
-      - ${HOME:-.}:/home/${HOST_USER}
+      #- ${HOME:-.}:/home/${HOST_USER}
+      #- ${PWD:-.}:/home/${HOST_USER}/strfry
       - ${PWD:-.}:/tmp
-      - ${PWD:-.}:/app
-      - ${PWD:-.}:/etc/strfry.conf
-      - ${PWD:-.}:/app/strfry-db
+
     ports:
       - "7777:7777"
