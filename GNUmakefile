@@ -226,5 +226,10 @@ endif
 login: service
 	# run as a service and attach to it
 	docker exec -it $(PROJECT_NAME)_$(HOST_UID) sh
+	
+tag:
+	@git tag $(OS)-$(OS_VERSION)-$(ARCH)-$(shell date +%s)
+	@git push -f --tagsA
+
 -include Makefile
-#include golpe/rules.mk
+#-include golpe/rules.mk

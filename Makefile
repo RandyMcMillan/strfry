@@ -71,6 +71,6 @@ local-lib:##
 stuff: $(HEADERS) $(OBJS) $(ARS)##
 	$(CC) $(CFLAGS) $(OBJS) $(ARS) -o $@
 
-include golpe/rules.mk
+-include golpe/rules.mk
 
 LDLIBS += -lsecp256k1 -lb2 -lzstd

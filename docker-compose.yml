@@ -2,12 +2,12 @@ version: '3.4'
 services:
 
   ubuntu:
-    container_name: ${PROJECT_NAME}_${HOST_UID:-4000}
-    hostname: ${PROJECT_NAME}
+    container_name: ${PROJECT_NAME:-strfry}_${HOST_UID:-4000}
+    hostname: ${PROJECT_NAME:-strfry}
     environment:
       - UID=${HOST_UID:-4000}
-    user: ${HOST_USER:-nodummy}
-    image: ${PROJECT_NAME}:${HOST_USER:-nodummy}
+    user: ${HOST_USER:-strfry}
+    image: ${PROJECT_NAME:-strfry}:${HOST_USER:-strfry}
     privileged: true
     build:
       context: .
@@ -16,15 +16,16 @@ services:
       dockerfile: Dockerfile
       args:
         - HOST_UID=${HOST_UID:-4000}
-        - HOST_USER=${HOST_USER:-nodummy}
-        - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY}
-        - PASSWORD=${PASSWORD}
-        - UBUNTU_VERSION=${UBUNTU_VERSION}
+        - HOST_USER=${HOST_USER:-strfry}
+        - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY:-}
+        - PASSWORD=${PASSWORD:-changeme}
+        - UBUNTU_VERSION=${UBUNTU_VERSION:-jammy}
     command: ["tail", "-f", "/dev/null"]
     volumes:
-      #- ${HOME:-.}:/home/${HOST_USER}
-      #- ${PWD:-.}:/home/${HOST_USER}/strfry
+      - ${HOME:-.}:/home/${HOST_USER:-strfry}
+      - ${PWD:-.}:/home/${HOST_USER:-strfry}/strfry
       - ${PWD:-.}:/tmp
+      - ${PWD:-.}:/app
 
     ports:
       - "7777:7777"
